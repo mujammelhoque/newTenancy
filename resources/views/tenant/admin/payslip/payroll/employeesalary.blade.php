@@ -1,5 +1,5 @@
 
-@extends('layouts.master')
+@extends('tenant.admin.payslip.layouts.master')
 @section('content')
     {{-- message --}}
     {{-- {!! Toastr::message() !!} --}}
@@ -14,7 +14,7 @@
                     <div class="col">
                         <h3 class="page-title">Employee Salary <span id="year"></span></h3>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('tenant.admin.dashboard') }}">Dashboard</a></li>
                             <li class="breadcrumb-item active">Salary</li>
                         </ul>
                     </div>
@@ -84,7 +84,8 @@
                                     <th>Employee </th>
                                     <th>Email</th>
                                     <th>Phone</th>
-                                    <th>Salary</th>
+                                    <th>Basic</th>
+                                    <th>Total</th>
                                     <th>Payslip</th>
                                     <th class="text-right">Action</th>
                                 </tr>
@@ -104,18 +105,20 @@
                                     <td  class="name">{{ $eminfo->name }}</td>
                                     <td  class="email">{{ $eminfo->email }}</td>
                                     <td  class="da">{{ $eminfo->phone }}</td>
-                                    <td  class="basic">{{ $eminfo->earning_deduction->basic }}</td>
-                                    <td hidden class="house_rent">{{ $eminfo->earning_deduction->house_rent }}</td>
-                                    <td hidden class="medical">{{ $eminfo->earning_deduction->medical }}</td>
-                                    <td hidden class="transportation">{{ $eminfo->earning_deduction->transportation }}</td>
-                                    <td hidden class="mobile">{{ $eminfo->earning_deduction->mobile }}</td>
-                                    <td hidden>
-                                        <span  class="income_tax">{{ $eminfo->earning_deduction->income_tax }}</span>%<span></span>
-                                    </td>
-                                    <td hidden class="absence">{{ $eminfo->earning_deduction->absence }}</td>
-                                    <td hidden class="advance">{{ $eminfo->earning_deduction->advance }}</td>
+                                    <td  class="basic">{{ $eminfo->earning_deduction->basic ??'' }}</td>
+                                    <td  class="total">{{ $eminfo->earning_deduction->gross_salary ??'' }}</td>
 
-                                    <td hidden class="loan">{{ $eminfo->earning_deduction->loan }}</td>
+                                    <td hidden class="house_rent">{{ $eminfo->earning_deduction->house_rent ??''}}</td>
+                                    <td hidden class="medical">{{ $eminfo->earning_deduction->medical??'' }}</td>
+                                    <td hidden class="transportation">{{ $eminfo->earning_deduction->transportation??'' }}</td>
+                                    <td hidden class="mobile">{{ $eminfo->earning_deduction->mobile??'' }}</td>
+                                    <td hidden>
+                                        <span  class="income_tax">{{ $eminfo->earning_deduction->income_tax??'' }}</span>%<span></span>
+                                    </td>
+                                    <td hidden class="absence">{{ $eminfo->earning_deduction->absence ??''}}</td>
+                                    <td hidden class="advance">{{ $eminfo->earning_deduction->advance??'' }}</td>
+
+                                    <td hidden class="loan">{{ $eminfo->earning_deduction->loan??'' }}</td>
 
                                     <td><a class="btn btn-sm btn-primary" href="{{ url('form/salary/view/'.$eminfo->id) }}" target="_blank">Generate Slip</a></td>
                                     <td class="text-right">
@@ -156,7 +159,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Select Employee</label>
-                                        <select class="select select2s-hidden-accessible @error('employee_id') is-invalid @enderror" style="width: 100%;" tabindex="-1" aria-hidden="true" id="employee_id" name="employee_id">
+                                        <select class="select select2s-hidden-accessible @error('tenant_employee_id') is-invalid @enderror" style="width: 100%;" tabindex="-1" aria-hidden="true" id="tenant_employee_id" name="tenant_employee_id">
                                             <option value="">-- Select --</option>
                                             @foreach ($employees as $employee )
                                                 <option value="{{ $employee->id }}" >{{ $employee->name }}</option>
@@ -172,8 +175,8 @@
                                 {{-- <input class="form-control" type="hidden" name="user_id" id="employee_id" readonly> --}}
                                 <div class="col-sm-6">
                                     <label>Gross Salary</label>
-                                    <input class="form-control @error('salary') is-invalid @enderror" type="number" name="salary" id="salary" value="{{ old('salary') }}" placeholder="Enter net salary">
-                                    @error('salary')
+                                    <input class="form-control @error('gross_salary') is-invalid @enderror" type="number" name="gross_salary" id="gross_salary" value="{{ old('gross_salary') }}" placeholder="Enter total salary">
+                                    @error('gross_salary')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -325,7 +328,7 @@
                             @csrf
 
 
-                            <input class="form-control" type="hidden" name="employee_id" id="e_id" value="" readonly>
+                            <input class="form-control" type="hidden" name="tenant_employee_id" id="e_id" value="" readonly>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">

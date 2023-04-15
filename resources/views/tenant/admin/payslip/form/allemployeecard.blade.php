@@ -97,15 +97,16 @@
                                  <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="col-form-label">User Name</label>
-                                        <select class="select select2s-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="name" name="tenant_user_id">
+                                        <select class="select select2s-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="tenant_user_id" name="tenant_user_id">
                                             <option value="">-- Select --</option>
                                             @foreach ($tenantusers as $key => $user )
-                                                <option value="{{ $user->id }}" data-phone={{ $user->phone }} data-email={{ $user->email }} data-address={{ $user->present_address }} data-bank_account={{ $user->bank_ac }} data-national_id={{ $user->national_id }}  data-dob={{ $user->dob }}  data-gender={{ $user->gender }}  >
+                                                <option value="{{ $user->id }}" data-name={{ $user->name }} data-phone={{ $user->phone }} data-email={{ $user->email }} data-address={{ $user->present_address }} data-bank_account={{ $user->bank_ac }} data-national_id={{ $user->national_id }}  data-dob={{ $user->dob }}  data-gender={{ $user->gender }}  >
                                                     {{ $user->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                </div> 
+                                </div>
+                                <input hidden class="form-control" type="text" name="name" id="name"  >
 
                         {{--<div class="col-sm-6">
                                     <div class="form-group">
@@ -175,9 +176,9 @@
                                     <div class="form-group">
                                         <label class="col-form-label">Department<span class="text-danger">*</span></label>
                                         <select class="select form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" id="department_id" name="department_id">
-                                        <option value="IT-Telecome">IT-Telecome</option>
-                                        <option value="Marketing">Marketing</option>
-                                        <option value="Other">Other</option>
+                                        <option value="1">IT-Telecome</option>
+                                        <option value="2">Marketing</option>
+                                        <option value="3">Other</option>
 
                                     </select>
 
@@ -202,7 +203,7 @@
                                     <div class="form-group">
                                         <label>Gender</label>
                                         <input class="form-control" style="width: 100%;" tabindex="-1" id="gender" name="gender" readonly>
-                                    
+
                                     </div>
                                 </div>
 
@@ -296,10 +297,13 @@
         });
     </script>
     <script>
-        // select auto id and 
+        // select auto id and
         $(document).ready(function(){
-        $('#name').on('change',function()
+        $('#tenant_user_id').on('change',function()
         {
+            $('#name').val($(this).find(':selected').data('name'));
+            $('#phone').val($(this).find(':selected').data('phone'));
+
             $('#address').val($(this).find(':selected').data('address'));
             $('#email').val($(this).find(':selected').data('email'));
             $('#bank_account').val($(this).find(':selected').data('bank_account'));

@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class TenantEmployee extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'tenant_user_id',
         'name',
@@ -23,5 +24,9 @@ class TenantEmployee extends Model
         'national_id',
         'bank_account'
     ];
+    public function earning_deduction(): HasOne
+    {
+        return $this->hasOne(TenantEarningDeduction::class);
+        }
 
 }

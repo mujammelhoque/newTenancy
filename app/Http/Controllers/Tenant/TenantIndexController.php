@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Tenant;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Http\Request;
 use App\Models\TenantUser;
+use App\Models\AdminSubDomainAuthCheck;
 
 class TenantIndexController extends Controller
 {
@@ -31,10 +33,38 @@ class TenantIndexController extends Controller
         ]);
 
         if (\Auth::guard('admin')->attempt($request->only(['email','password']), $request->get('remember'))){
+            if (Session::has('AdminSubDomainAuthCheck'))
+        {
+            Session::forget('AdminSubDomainAuthCheck');
+            
+            Session::put('AdminSubDomainAuthCheck',  csrf_token());
+
+            AdminSubDomainAuthCheck::updateOrCreate([
+                'admin_id' => Auth::guard('admin')->id(),
+            ], [
+
+                'token' => session()->get('AdminSubDomainAuthCheck'),
+
+            ]);
             return redirect()->route('tenant.admin.dashboard');
+
+        }else{
+            Session::put('AdminSubDomainAuthCheck',  csrf_token());
+
+            AdminSubDomainAuthCheck::updateOrCreate([
+                'admin_id' => Auth::guard('admin')->id(),
+            ], [
+
+                'token' => session()->get('AdminSubDomainAuthCheck'),
+
+            ]);
+            return redirect()->route('tenant.admin.dashboard');
+
+
+        }
         }else {
             return back();
-        }   
+        }
 
      }
     // *******************Redirect to Tenant Super Admin login form****************
@@ -58,7 +88,7 @@ class TenantIndexController extends Controller
             return redirect()->route('tenant.superadmin.dashboard');
         }else {
             return back();
-        }   
+        }
 
         }
     // **********************Tenant User Register form*****************************
@@ -69,14 +99,14 @@ class TenantIndexController extends Controller
 
     public function user_register(Request $request){
         // dd($request->all());
-      
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'phone' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.TenantUser::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-     
+
      TenantUser::create([
             'name' => $request->name,
             'phone' => $request->phone,
@@ -108,7 +138,7 @@ class TenantIndexController extends Controller
             return view('tenant.user.dashboard');
         }else {
             return back();
-        }  
+        }
 
     }
 

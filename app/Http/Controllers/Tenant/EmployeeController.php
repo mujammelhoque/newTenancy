@@ -45,6 +45,7 @@ class EmployeeController extends Controller
             'phone'     => 'required|string|max:255',
         ]);
         $employee = new TenantEmployee;
+                $employee->tenant_user_id        = $request->tenant_user_id;
                 $employee->name                 = $request->name;
                 $employee->email                = $request->email;
                 $employee->phone                = $request->phone;

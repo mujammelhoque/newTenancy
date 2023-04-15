@@ -1,5 +1,5 @@
 
-@extends('layouts.exportmaster')
+@extends('tenant.admin.payslip.layouts.exportmaster')
 @section('content')
     <!-- Page Wrapper -->
     <div class="">

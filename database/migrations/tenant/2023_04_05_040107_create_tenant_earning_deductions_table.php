@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('earning_deductions', function (Blueprint $table) {
+        Schema::create('tenant_earning_deductions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id');
+            $table->foreignId('tenant_employee_id');
+            $table->double('gross_salary',10,2)->nullable();
             $table->double('basic',10,2)->nullable();
             $table->double('house_rent',10,2)->nullable();
             $table->double('medical',10,2)->nullable();
@@ -28,7 +29,7 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->foreign('employee_id')->references('id')->on('employees')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('tenant_employee_id')->references('id')->on('tenant_employees')->onUpdate('cascade')->onDelete('cascade');
 
         });
     }
@@ -38,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('earning_deductions');
+        Schema::dropIfExists('tenant_earning_deductions');
     }
 };
