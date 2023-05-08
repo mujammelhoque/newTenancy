@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Tenant;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TenantEmployee;
-// use App\Models\Deduction;
-// use App\Models\Earning;
+use App\Models\CurrentLoan;
+use App\Models\LoanAddHistory;
 use App\Models\TenantEarningDeduction;
 
 use Illuminate\Support\Facades\DB;
@@ -34,16 +34,43 @@ class PayrollController extends Controller
         $salary->tenant_employee_id    = $request->tenant_employee_id;
         $salary->basic                 = $request->basic;
         $salary->house_rent            = $request->house_rent;
+        $salary->house_rent_unit       = $request->house_rent_unit;
+
+
         $salary->medical               = $request->medical;
+        $salary->medical_unit              = $request->medical_unit;
+
+
         $salary->transportation        = $request->transportation;
+        $salary->transportation_unit   = $request->transportation_unit;
+
         $salary->mobile                = $request->mobile;
+        $salary->mobile_unit           = $request->mobile_unit;
+
 
         $salary->income_tax            = $request->income_tax;
+        $salary->income_tax_unit       = $request->income_tax_unit;
+
         $salary->absence               = $request->absence;
         $salary->advance               = $request->advance;
         $salary->loan                  = $request->loan;
         $salary->save();
+    //     $currentloan =[];
+    // if (CurrentLoan::where(['employee_id',$request->tenant_employee_id])->exists()) {
+    // }
+        $currentloan = CurrentLoan::where('employee_id',$request->tenant_employee_id)->first();
+        $updateloan =  $currentloan->current_loan??0+$request->loan;
+        CurrentLoan::updateOrCreate([
+            'employee_id'       =>$request->tenant_employee_id],
+            [            'current_loan'      =>  $updateloan
+            ]
+        );
 
+        LoanAddHistory::create([
+            'employee_id'       =>      $request->tenant_employee_id,
+            'add_loan'        =>      $request->loan,
+
+        ]);
 
         return back();
 
@@ -70,18 +97,29 @@ class PayrollController extends Controller
     public function updateRecord(Request $request)
     {
             $update = [
-                'employee_id'           => $request->employee_id,
+                'tenant_employee_id'    => $request->tenant_employee_id,
                 'basic'                 => $request->basic,
+
                 'house_rent'            => $request->house_rent,
+                'house_rent_unit'       => $request->house_rent_unit,
+
                 'medical'               => $request->medical,
+                'medical_unit'          => $request->medical_unit,
+
                 'transportation'        => $request->transportation,
+                'transportation_unit'   => $request->transportation_unit,
+
                 'mobile'                => $request->mobile,
+                'mobile_unit'           => $request->mobile_unit,
+
                 'income_tax'            => $request->income_tax,
+                'income_tax_unit'       => $request->income_tax_unit,
+
                 'absence'               => $request->absence,
                 'advance'               => $request->advance,
                 'loan'                  => $request->loan,
                                             ];
-            TenantEarningDeduction::where('id',$request->employee_id)->update($update);
+            TenantEarningDeduction::where('id',$request->tenant_employee_id)->update($update);
             return redirect()->back();
 
         // DB::beginTransaction();

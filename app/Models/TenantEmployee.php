@@ -29,4 +29,9 @@ class TenantEmployee extends Model
         return $this->hasOne(TenantEarningDeduction::class);
         }
 
+    public function current_loan(): HasOne
+        {
+            return $this->hasOne(CurrentLoan::class,'employee_id');
+            }
+
 }

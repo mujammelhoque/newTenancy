@@ -9,11 +9,11 @@
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div> -->
         <!-- org Id -->
-        <div>
+        {{-- <div>
             <x-input-label for="org_id" :value="__('Id')" />
             <x-text-input id="org_id" class="block mt-1 w-full" type="text" name="org_id" :value="old('org_id')" required  autofocus autocomplete="org_id" />
             <x-input-error :messages="$errors->get('org_id')" class="mt-2" />
-        </div>
+        </div> --}}
 
            <!-- org Name -->
            <div>

@@ -32,14 +32,12 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'org_name' => ['required', 'string', 'max:255'],
-            'org_id' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-     
+
         $user = User::create([
             'org_name' => $request->org_name,
-            'org_id' => $request->org_id,
             'org_domain' => $request->org_domain,
             'email' => $request->email,
             'status' => $request->status,

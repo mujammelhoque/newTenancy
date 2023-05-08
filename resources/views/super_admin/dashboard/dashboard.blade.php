@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Mazer Admin Dashboard</title>
 
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    {{-- <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet"> --}}
     <link rel="stylesheet" href="{{asset('super_admin_assets')}}/assets/css/bootstrap.css">
 
     <link rel="stylesheet" href="{{asset('super_admin_assets')}}/assets/vendors/iconly/bold.css">
@@ -19,7 +19,7 @@
 </head>
 
 <body>
-  
+
 <div id="app">
         <div id="sidebar" class="active">
             <div class="sidebar-wrapper active">
@@ -371,7 +371,11 @@
                         <li class="sidebar-item  ">
                             <a href="https://github.com/zuramai/mazer#donate" class='sidebar-link'>
                                 <i class="bi bi-cash"></i>
-                                <span>Donate</span>
+                                <span><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form></span>
                             </a>
                         </li>
 
@@ -388,7 +392,7 @@
             </header>
 
             <div class="page-heading">
-             
+
 
 
                 <!-- Striped rows start -->
@@ -420,7 +424,11 @@
                                             <tbody>
                                              @forelse ($tenan_request_users as $user)
                                                 <tr>
-                                                    <td class="text-bold-500">{{$user->org_id}}</td>
+                                                    <td class="text-bold-500">@if ($user->org_id == null)
+                                                        Empty Id
+                                                        @elseif ($user->org_id !=null)
+                                                        {{ $user->org_id }}
+                                                    @endif</td>
                                                     <td>{{$user->org_name}}</td>
                                                     <td class="text-bold-500">{{$user->org_domain}}</td>
                                                     <td>{{$user->email}}</td>
@@ -432,22 +440,38 @@
                                                     </td>
 
                                                     <td>
-                                                        <form action="{{route('super.admin.tenant.accept')}}" method="post">
+                                                        <form style="display: inline-block" action="{{route('super.admin.tenant.accept')}}" method="post">
                                                             @csrf
                                                             <input type="hidden" name="id" value="{{$user->id}}">
-                                                            <button class="btn btn-info"  type="submit">Accept</button>
+
+
+                                                        <div class="input-group mb-3">
+                                                            <input class="form-control @error('org_id') is-invalid @enderror" type="text"  name="org_id" value="{{ old('org_id') }}" placeholder="Enter A Unique Id">
+                                                            <div class="input-group-append">
+                                                                    <button class="btn btn-info"  type="submit">Accept</button>
+
+                                                              </div>
+
+                                                              @error('house_rent')
+                                                              <span class="invalid-feedback" role="alert">
+                                                                  <strong>{{ $message }}</strong>
+                                                              </span>
+                                                          @enderror
+                                                        </div>
+
+
                                                         </form>
-                                                        <form action="{{route('super.admin.tenant.reject')}}" method="post">
+                                                        {{-- <form style="display: inline-block"  action="{{route('super.admin.tenant.reject')}}" method="post">
                                                             @csrf
                                                             <input type="hidden" name="id" value="{{$user->id}}">
                                                             <button class="btn btn-danger" type="submit">Reject</button>
-                                                        </form>
+                                                        </form> --}}
                                                     </td>
                                                 </tr>
                                              @empty
                                              @endforelse
-                                             
-                                           
+
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -461,7 +485,7 @@
 
 
 
-        
+
             </div>
 
             <footer>

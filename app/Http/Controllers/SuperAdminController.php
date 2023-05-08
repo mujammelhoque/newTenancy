@@ -32,9 +32,15 @@ class SuperAdminController extends Controller
         // dd( Auth::guard('super_admin')->user()->email);
         $user = User::find($request->id);
         $user->status = 1;
+        $user->org_id =$request->org_id ;
+
         $user->update();
 
-        $tenant1 = Tenant::create(['id' => $user->org_id]);
+        $tenant1 = Tenant::create([
+            'id' => $user->org_id,
+            // 'tenancy_db_username' => 'phpmyadmin',
+            // 'tenancy_db_password' => 'aloitConsultants123456',
+        ]);
      $tenant1->domains()->create(['domain' => $user->org_id.'.localhost']);
 
         session()->put('adminEmail',$user->email);
@@ -58,7 +64,7 @@ class SuperAdminController extends Controller
 
                 'phone' => session()->get('adminPhone'),
                 'password' => session()->get('adminPassword'),
-             
+
             ]);
 
             session()->forget('adminEmail');
@@ -70,7 +76,7 @@ class SuperAdminController extends Controller
 
             // session()->forget('adminOrgDomain');
 
-              
+
         SuperAdmin::updateOrCreate([
             'email' => Auth::guard('super_admin')->user()->email
         ], [
@@ -79,7 +85,7 @@ class SuperAdminController extends Controller
             'password' =>  Auth::guard('super_admin')->user()->password,
         ]);
     });
-      
+
        return back()->with('success','Status has been changed successfully!');
 
 

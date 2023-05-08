@@ -5,6 +5,9 @@ declare(strict_types=1);
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
+use App\Http\Middleware\AdminAccess;
+use Illuminate\Support\Facades\Auth;
+
 
 use App\Http\Controllers\Tenant\TenantIndexController;
 use App\Http\Controllers\Tenant\TenantAdminController;
@@ -57,7 +60,6 @@ Route::middleware([
 
     Route::middleware('adminAccess')->group(function(){
         Route::get('admin/dashboard/', [TenantAdminController::class, 'index'])->name('tenant.admin.dashboard');
-
     });
 
 
@@ -71,45 +73,50 @@ Route::post('/user/login/', [TenantIndexController::class, 'user_login'])->name(
 
 // ---------------- form employee ----------------//
 Route::controller(EmployeeController::class)->group(function () {
-    Route::get('all/employee/card', 'cardAllEmployee')->middleware('auth:admin')->name('all/employee/card');
-    Route::get('all/employee/list', 'listAllEmployee')->middleware('auth:admin')->name('all/employee/list');
-    Route::post('employee/save', 'saveRecord')->middleware('auth:admin')->name('employee/save');
-    Route::get('all/employee/view/edit/{employee_id}', 'viewRecord:admin');
-    Route::post('all/employee/update', 'updateRecord')->middleware('auth:admin')->name('all/employee/update');
-    Route::get('all/employee/delete/{employee_id}', 'deleteRecord')->middleware('auth:admin');
-    Route::post('all/employee/search', 'employeeSearch')->name('all/employee/search');
-    Route::post('all/employee/list/search', 'employeeListSearch')->name('all/employee/list/search');
+    Route::middleware('adminAccess')->group(function(){
+        Route::get('all/employee/card', 'cardAllEmployee')->name('all/employee/card');
+        Route::get('all/employee/list', 'listAllEmployee')->name('all/employee/list');
+        Route::post('employee/save', 'saveRecord')->name('employee/save');
+        Route::get('all/employee/view/edit/{employee_id}', 'viewRecord:admin');
+        Route::post('all/employee/update', 'updateRecord')->name('all/employee/update');
+        Route::get('all/employee/delete/{employee_id}', 'deleteRecord');
+        Route::post('all/employee/search', 'employeeSearch')->name('all/employee/search');
+        Route::post('all/employee/list/search', 'employeeListSearch')->name('all/employee/list/search');
 
-    Route::get('form/departments/page', 'index')->middleware('auth:admin')->name('form/departments/page');
-    Route::post('form/departments/save', 'saveRecordDepartment')->middleware('auth:admin')->name('form/departments/save');
-    Route::post('form/department/update', 'updateRecordDepartment')->middleware('auth:admin')->name('form/department/update');
-    Route::post('form/department/delete', 'deleteRecordDepartment')->middleware('auth:admin')->name('form/department/delete');
+        Route::get('form/departments/page', 'index')->name('form/departments/page');
+        Route::post('form/departments/save', 'saveRecordDepartment')->name('form/departments/save');
+        Route::post('form/department/update', 'updateRecordDepartment')->name('form/department/update');
+        Route::post('form/department/delete', 'deleteRecordDepartment')->name('form/department/delete');
 
-    Route::get('form/designations/page', 'designationsIndex')->middleware('auth:admin')->name('form/designations/page');
-    Route::post('form/designations/save', 'saveRecordDesignations')->middleware('auth:admin')->name('form/designations/save');
-    Route::post('form/designations/update', 'updateRecordDesignations')->middleware('auth:admin')->name('form/designations/update');
-    Route::post('form/designations/delete', 'deleteRecordDesignations')->middleware('auth:admin')->name('form/designations/delete');
+        Route::get('form/designations/page', 'designationsIndex')->name('form/designations/page');
+        Route::post('form/designations/save', 'saveRecordDesignations')->name('form/designations/save');
+        Route::post('form/designations/update', 'updateRecordDesignations')->name('form/designations/update');
+        Route::post('form/designations/delete', 'deleteRecordDesignations')->name('form/designations/delete');
 
-    Route::get('form/timesheet/page', 'timeSheetIndex')->middleware('auth:admin')->name('form/timesheet/page');
-    Route::post('form/timesheet/save', 'saveRecordTimeSheets')->middleware('auth:admin')->name('form/timesheet/save');
-    Route::post('form/timesheet/update', 'updateRecordTimeSheets')->middleware('auth:admin')->name('form/timesheet/update');
-    Route::post('form/timesheet/delete', 'deleteRecordTimeSheets')->middleware('auth:admin')->name('form/timesheet/delete');
+        Route::get('form/timesheet/page', 'timeSheetIndex')->name('form/timesheet/page');
+        Route::post('form/timesheet/save', 'saveRecordTimeSheets')->name('form/timesheet/save');
+        Route::post('form/timesheet/update', 'updateRecordTimeSheets')->name('form/timesheet/update');
+        Route::post('form/timesheet/delete', 'deleteRecordTimeSheets')->name('form/timesheet/delete');
 
-    Route::get('form/overtime/page', 'overTimeIndex')->middleware('auth:admin')->name('form/overtime/page');
-    Route::post('form/overtime/save', 'saveRecordOverTime')->middleware('auth:admin')->name('form/overtime/save');
-    Route::post('form/overtime/update', 'updateRecordOverTime')->middleware('auth:admin')->name('form/overtime/update');
-    Route::post('form/overtime/delete', 'deleteRecordOverTime')->middleware('auth:admin')->name('form/overtime/delete');
+        Route::get('form/overtime/page', 'overTimeIndex')->name('form/overtime/page');
+        Route::post('form/overtime/save', 'saveRecordOverTime')->name('form/overtime/save');
+        Route::post('form/overtime/update', 'updateRecordOverTime')->name('form/overtime/update');
+        Route::post('form/overtime/delete', 'deleteRecordOverTime')->name('form/overtime/delete');
+    });
+
 });
 
 // --------------------- form payroll  -----------------------//
 
 Route::controller(PayrollController::class)->group(function () {
-    Route::get('form/salary/page', 'salary')->middleware('auth:admin')->name('form/salary/page');
-    Route::post('form/salary/save','saveRecord')->middleware('auth:admin')->name('form/salary/save');
-    Route::post('form/salary/update', 'updateRecord')->middleware('auth:admin')->name('form/salary/update');
-    Route::post('form/salary/delete', 'deleteRecord')->middleware('auth:admin')->name('form/salary/delete');
-    Route::get('form/salary/view/{user_id}', 'salaryView')->middleware('auth:admin');
-    Route::get('form/payroll/items', 'payrollItems')->middleware('auth:admin')->name('form/payroll/items');
+    Route::middleware('adminAccess')->group(function(){
+        Route::get('form/salary/page', 'salary')->name('form/salary/page');
+        Route::post('form/salary/save','saveRecord')->name('form/salary/save');
+        Route::post('form/salary/update', 'updateRecord')->name('form/salary/update');
+        Route::post('form/salary/delete', 'deleteRecord')->name('form/salary/delete');
+        Route::get('form/salary/view/{user_id}', 'salaryView');
+        Route::get('form/payroll/items', 'payrollItems')->name('form/payroll/items');
+    });
 });
 
 Route::controller(PdfController::class)->group(function(){

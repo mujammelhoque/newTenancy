@@ -26,8 +26,7 @@ class TenantIndexController extends Controller
     // *******************Admin login *****************
 
     public function admin_login(Request $request){
-
- $this->validate($request, [
+         $this->validate($request, [
             'email'   => 'required|email',
             'password' => 'required|min:6'
         ]);
@@ -36,7 +35,7 @@ class TenantIndexController extends Controller
             if (Session::has('AdminSubDomainAuthCheck'))
         {
             Session::forget('AdminSubDomainAuthCheck');
-            
+
             Session::put('AdminSubDomainAuthCheck',  csrf_token());
 
             AdminSubDomainAuthCheck::updateOrCreate([

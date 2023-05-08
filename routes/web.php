@@ -40,7 +40,7 @@ Route::middleware('auth:super_admin')->group(function () {
     Route::post('/super/admin/tenant/accept', [SuperAdminController::class, 'tenant_accept'])->name('super.admin.tenant.accept');
     Route::post('/super/admin/tenant/reject', [SuperAdminController::class, 'tenant_reject'])->name('super.admin.tenant.reject');
 
-   
+
 });
 
 require __DIR__.'/auth.php';

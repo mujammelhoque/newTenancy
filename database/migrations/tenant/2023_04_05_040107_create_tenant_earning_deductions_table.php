@@ -16,16 +16,30 @@ return new class extends Migration
             $table->foreignId('tenant_employee_id');
             $table->double('gross_salary',10,2)->nullable();
             $table->double('basic',10,2)->nullable();
+
             $table->double('house_rent',10,2)->nullable();
+            $table->string('house_rent_unit')->nullable();
+
             $table->double('medical',10,2)->nullable();
+            $table->string('medical_unit')->nullable();
+
+
             $table->double('transportation',10,2)->nullable();
+            $table->string('transportation_unit')->nullable();
+
+
             $table->double('mobile',10,2)->nullable();
-            $table->string('lumpsum')->nullable();
+            $table->string('mobile_unit')->nullable();
+
 
             $table->double('income_tax',6,2)->nullable();
+            $table->string('income_tax_unit')->nullable();
+
             $table->double('absence',6,2)->nullable();
             $table->double('advance',10,2)->nullable();
             $table->double('loan',10,2)->nullable();
+            $table->string('lumpsum')->nullable();
+
 
             $table->timestamps();
 

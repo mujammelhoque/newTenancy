@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class TenantEarningDeduction extends Model
 {
     use HasFactory;
-    protected $fillable = ['tenant_employee_id','gross_salary','basic','house_rent','medical','transportation','mobile','income_tax','absence','loan'];
+    protected $fillable = ['tenant_employee_id','gross_salary','basic','house_rent','house_rent_unit','medical','medical_unit','transportation','transportation_unit','mobile','mobile_unit','income_tax','income_tax_unit','absence','loan'];
     // public function employee(): BelongsTo
 
     // {

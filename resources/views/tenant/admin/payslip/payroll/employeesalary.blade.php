@@ -198,42 +198,116 @@
                                             </span>
                                         @enderror
                                     </div>
+
                                     <div class="form-group">
                                         <label>House Rent</label>
+
+
+                                    <div class="input-group mb-3">
                                         <input class="form-control @error('house_rent') is-invalid @enderror" type="number"  name="house_rent" id="house_rent" value="{{ old('house_rent') }}" placeholder="Enter House Rent">
-                                        @error('house_rent')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                                        <div class="input-group-append">
+                                            <select class=" form-control  input-group " name="house_rent_unit">
+                                                <option value="bdt" selected>BDT</option>
+                                                <option value="persent">Persent</option>
+                                                <option value="dolor">DOLOR</option>
+                                              </select>
+
+                                          </div>
+
+                                          @error('house_rent')
+                                          <span class="invalid-feedback" role="alert">
+                                              <strong>{{ $message }}</strong>
+                                          </span>
+                                      @enderror
                                     </div>
+                                </div>
+
+
                                     <div class="form-group">
-                                        <label>Medical Allowance</label>
-                                        <input class="form-control @error('medical') is-invalid @enderror" type="number"  name="medical" id="medical" value="{{ old('medical') }}" placeholder="Enter Medical allowance">
+
                                         @error('medical')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
                                     </div>
+
+                                    <div class="form-group">
+                                        <label>Medical Allowance</label>
+
+
+                                    <div class="input-group mb-3">
+                                        <input class="form-control @error('medical') is-invalid @enderror" type="number"  name="medical" id="medical" value="{{ old('medical') }}" placeholder="Enter Medical allowance">
+                                        <div class="input-group-append">
+                                            <select class=" form-control  input-group " name="medical_unit">
+                                                <option selected value="bdt">BDT</option>
+                                                <option value="persent">Persent</option>
+                                                <option value="dolor">DOLOR</option>
+                                              </select>
+
+                                          </div>
+
+                                          @error('medical')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+
+
                                     <div class="form-group">
                                         <label>Transportation</label>
+
+                                    <div class="input-group mb-3">
                                         <input class="form-control @error('transportation') is-invalid @enderror" type="number"  name="transportation" id="transportation" value="{{ old('transportation') }}" placeholder="Enter Transportation Cost">
-                                        @error('transportation')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                                        <div class="input-group-append">
+                                            <select class=" form-control  input-group " name="transportation_unit">
+                                                <option selected value="bdt">BDT</option>
+                                                <option value="persent">Persent</option>
+                                                <option value="dolor">DOLOR</option>
+                                              </select>
+
+                                          </div>
+
+                                          @error('transportation')
+                                          <span class="invalid-feedback" role="alert">
+                                              <strong>{{ $message }}</strong>
+                                          </span>
+                                      @enderror
                                     </div>
+                                </div>
+
+
+
+
+
+
                                     <div class="form-group">
                                         <label>Mobile</label>
+
+                                    <div class="input-group mb-3">
                                         <input class="form-control @error('mobile') is-invalid @enderror" type="number"  name="mobile" id="mobile" value="{{ old('mobile') }}" placeholder="Enter Mobile Bill">
-                                        @error('mobile')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                                        <div class="input-group-append">
+                                            <select class=" form-control  input-group " name="mobile_unit">
+                                                <option selected value="bdt">BDT</option>
+                                                <option value="persent">Persent</option>
+                                                <option value="dolor">DOLOR</option>
+                                              </select>
+
+                                          </div>
+
+                                          @error('mobile')
+                                          <span class="invalid-feedback" role="alert">
+                                              <strong>{{ $message }}</strong>
+                                          </span>
+                                      @enderror
                                     </div>
+                                </div>
+
+
+
                                     {{-- <div class="form-group">
                                         <label>Medical  Allowance</label>
                                         <input class="form-control @error('medical_allowance') is-invalid @enderror" type="number" name="medical_allowance" id="medical_allowance" value="{{ old('medical_allowance') }}" placeholder="Enter medical  allowance">
@@ -249,13 +323,28 @@
                                     <h4 class="text-primary">Deductions</h4>
                                     <div class="form-group">
                                         <label>Income Tax</label>
+
+
+                                    <div class="input-group mb-3">
                                         <input class="form-control @error('income_tax') is-invalid @enderror" type="number" name="income_tax" id="income_tax" value="{{ old('income_tax') }}" placeholder="Enter Income tax">
+                                        <div class="input-group-append">
+                                            <select class=" form-control  input-group " name="income_tax_unit">
+                                                <option value="bdt" selected>BDT</option>
+                                                <option value="persent">Persent</option>
+                                                <option value="bdt">BDT</option>
+                                                <option value="dolor">DOLOR</option>
+                                              </select>
+
+                                          </div>
+
                                         @error('income_tax')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
                                     </div>
+                                </div>
+
                                     <div class="form-group">
                                         <label>Leave of Absence</label>
                                         <input class="form-control @error('absence') is-invalid @enderror" type="number" name="absence" id="absence" value="{{ old('absence') }}" placeholder="Enter leave of absence">
@@ -353,30 +442,151 @@
                                         <label>Basic</label>
                                         <input class="form-control" type="text" name="basic" id="e_basic" value="">
                                     </div>
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <label>House Rent</label>
                                         <input class="form-control" type="text"  name="house_rent" id="e_house_rent" value="">
-                                    </div>
+                                    </div> --}}
+                                    {{-- __________________________________ --}}
                                     <div class="form-group">
+                                        <label>House Rent</label>
+
+
+                                    <div class="input-group mb-3">
+                                        <input class="form-control @error('house_rent') is-invalid @enderror" type="number"  name="house_rent" id="e_house_rent" value="{{ old('house_rent') }}" placeholder="Enter House Rent">
+                                        <div class="input-group-append">
+                                            <select class=" form-control  input-group " name="house_rent_unit">
+                                                <option value="bdt" selected>BDT</option>
+                                                <option value="persent">Persent</option>
+                                                <option value="dolor">DOLOR</option>
+                                              </select>
+
+                                          </div>
+
+                                          @error('house_rent')
+                                          <span class="invalid-feedback" role="alert">
+                                              <strong>{{ $message }}</strong>
+                                          </span>
+                                      @enderror
+                                    </div>
+                                </div>
+                                    {{--__________________________________--}}
+                                    {{-- <div class="form-group">
                                         <label>Medical Allowance</label>
                                         <input class="form-control" type="text"  name="medical" id="e_medical" value="">
-                                    </div>
+                                    </div> --}}
+                                    {{-- __________________________________ --}}
                                     <div class="form-group">
+                                        <label>Medical Allowance</label>
+
+
+                                    <div class="input-group mb-3">
+                                        <input class="form-control @error('medical') is-invalid @enderror" type="number"  name="medical" id="e_medical" value="{{ old('medical') }}" >
+                                        <div class="input-group-append">
+                                            <select class=" form-control  input-group " name="medical_unit">
+                                                <option value="bdt" selected>BDT</option>
+                                                <option value="persent">Persent</option>
+                                                <option value="dolor">DOLOR</option>
+                                              </select>
+
+                                          </div>
+
+                                          @error('house_rent')
+                                          <span class="invalid-feedback" role="alert">
+                                              <strong>{{ $message }}</strong>
+                                          </span>
+                                      @enderror
+                                    </div>
+                                </div>
+                                    {{--__________________________________--}}
+                                    {{-- <div class="form-group">
                                         <label>Transportation</label>
                                         <input class="form-control" type="text"  name="transportation" id="e_transportation" value="">
+                                    </div> --}}
+                                      {{-- __________________________________ --}}
+                                      <div class="form-group">
+                                        <label>Transportation </label>
+
+
+                                    <div class="input-group mb-3">
+                                        <input class="form-control @error('transportation') is-invalid @enderror" type="number"  name="transportation" id="e_transportation" value="{{ old('transportation') }}" >
+                                        <div class="input-group-append">
+                                            <select class=" form-control  input-group " name="transportation_unit">
+                                                <option value="bdt" selected>BDT</option>
+                                                <option value="persent">Persent</option>
+                                                <option value="dolor">DOLOR</option>
+                                              </select>
+
+                                          </div>
+
+                                          @error('house_rent')
+                                          <span class="invalid-feedback" role="alert">
+                                              <strong>{{ $message }}</strong>
+                                          </span>
+                                      @enderror
                                     </div>
-                                    <div class="form-group">
+                                </div>
+                                    {{--__________________________________--}}
+
+                                    {{-- <div class="form-group">
                                         <label>Mobile</label>
                                         <input class="form-control" type="text"  name="mobile" id="e_mobile" value="">
+                                    </div> --}}
+                                    {{-- __________________________________ --}}
+                                    <div class="form-group">
+                                        <label>Mobile </label>
+
+
+                                    <div class="input-group mb-3">
+                                        <input class="form-control @error('mobile') is-invalid @enderror" type="number"  name="mobile" id="e_mobile" value="{{ old('mobile') }}" >
+                                        <div class="input-group-append">
+                                            <select class=" form-control  input-group " name="mobile_unit">
+                                                <option value="bdt" selected>BDT</option>
+                                                <option value="persent">Persent</option>
+                                                <option value="dolor">DOLOR</option>
+                                              </select>
+
+                                          </div>
+
+                                          @error('house_rent')
+                                          <span class="invalid-feedback" role="alert">
+                                              <strong>{{ $message }}</strong>
+                                          </span>
+                                      @enderror
                                     </div>
+                                </div>
+                                    {{--__________________________________--}}
 
                                 </div>
                                 <div class="col-sm-6">
                                     <h4 class="text-primary">Deductions</h4>
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <label>Income Tax</label>
                                         <input class="form-control" type="text"  name="income_tax" id="e_income_tax" value="">
+                                    </div> --}}
+                                      {{-- __________________________________ --}}
+                                      <div class="form-group">
+                                        <label>Income Tax </label>
+
+
+                                    <div class="input-group mb-3">
+                                        <input class="form-control @error('income_tax') is-invalid @enderror" type="number"  name="income_tax" id="e_income_tax" value="{{ old('income_tax') }}" >
+                                        <div class="input-group-append">
+                                            <select class=" form-control  input-group " name="income_tax_unit">
+                                                <option value="bdt" selected>BDT</option>
+                                                <option value="persent">Persent</option>
+                                                <option value="dolor">DOLOR</option>
+                                              </select>
+
+                                          </div>
+
+                                          @error('income_tax')
+                                          <span class="invalid-feedback" role="alert">
+                                              <strong>{{ $message }}</strong>
+                                          </span>
+                                      @enderror
                                     </div>
+                                </div>
+                                    {{--__________________________________--}}
                                     <div class="form-group">
                                         <label>Abasence</label>
                                         <input class="form-control" type="text" name="absence" id="e_absence" value="">

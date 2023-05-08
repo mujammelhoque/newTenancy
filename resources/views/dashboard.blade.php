@@ -25,6 +25,7 @@
 </head>
 <body>
     <h1>      company general dashboard</h1>
+    <a target="_blank" href="{{ Auth::user()->org_id }}.localhost:8000">visit yout site</a>
 
 </body>
 </html>

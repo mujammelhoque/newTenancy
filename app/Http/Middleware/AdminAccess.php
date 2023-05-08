@@ -5,10 +5,11 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+
 use App\Models\AdminSubDomainAuthCheck;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
-
+use Redirect;
 
 class AdminAccess
 {
@@ -20,15 +21,24 @@ class AdminAccess
     public function handle(Request $request, Closure $next): Response
     {
 
-        // if (Auth::guard('admin')->check())  {
+        if (Auth::guard('admin')->check())  {
+
             $admincheck = AdminSubDomainAuthCheck::where('admin_id',Auth::guard('admin')->id())->first();
+            if (  $admincheck->token !=null) {
             if ($admincheck->token == session()->get('AdminSubDomainAuthCheck')) {
                 return $next($request);
             } else{
               Auth::guard('admin')->logout();
-              return redirect()->route('admin.login');
+              return redirect()->route('tenant.admin.login.form');
             }
-        //   }
+        }
+
+           }
+           Auth::guard('admin')->logout();
+           return redirect()->route('tenant.admin.login.form');
+
+
+
 
         }
 }
